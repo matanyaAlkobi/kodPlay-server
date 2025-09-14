@@ -1,7 +1,29 @@
 {
+  "name": "kodplay-server",
+  "version": "1.0.0",
+  "description": "",
+  "homepage": "https://github.com/matanyaAlkobi/kodPlay-server#readme",
+  "bugs": {
+    "url": "https://github.com/matanyaAlkobi/kodPlay-server/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/matanyaAlkobi/kodPlay-server.git"
+  },
+  "license": "ISC",
+  "author": "",
+  "type": "module",
+  "main": "app.js",
+  "directories": {
+    "lib": "lib"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
   "dependencies": {
     "cors": "^2.8.5",
     "dotenv": "^17.2.2",
     "express": "^5.1.0"
-  }
+  },
+  "devDependencies": {}
 }
