@@ -28,7 +28,6 @@ router.post('/signin',async(req,res) => {
         req.body.password = hashedPassword
         createUser(req.body)
         const token = jwt.sign({ username: req.body.username },process.env.SECRETE_KEY,{expiresIn:'7h'})
-        console.log(token)
         res.json(token)
     } catch (error) {
         res.status(500).json({ msg: `server internal error: ${err}` });
