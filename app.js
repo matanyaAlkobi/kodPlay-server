@@ -18,6 +18,11 @@ server.use(cors({
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS']
 }));
 
+server.use("/", (req, res, next) => {
+  console.log(`method: ${req.method} url: ${req.url}`);
+  next();
+});
+
 server.use(express.json());
 
 server.use('/users',router)
