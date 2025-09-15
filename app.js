@@ -1,6 +1,7 @@
 import express from "express";
 import cors  from "cors"
 import "dotenv/config"
+import router from "./routes/users.js";
 
 const server = express();
 
@@ -17,9 +18,15 @@ server.use(cors({
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS']
 }));
 
+server.use("/", (req, res, next) => {
+  console.log(`method: ${req.method} url: ${req.url}`);
+  next();
+});
+
 server.use(express.json());
 
+server.use('/users',router)
 
 server.listen(process.env.SERVER_PORT || 4545, () => {
-  console.log("server listening...");
+  console.log(`server listening on port:${process.env.SERVER_PORT}`);
 });
