@@ -1,7 +1,7 @@
 import 'dotenv/config'
 const clientId =process.env.Client_ID;
 const clientSecret = process.env.Client_secret;
-const redirectUri = "https://39144c13d311.ngrok-free.app/spotify/callback";
+const redirectUri = "https://kodplay-server.onrender.com/spotify/callback";
 
 export async function getlinkSpotify(req, res) {
   try {
