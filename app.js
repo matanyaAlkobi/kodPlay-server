@@ -2,6 +2,7 @@ import express from "express";
 import cors  from "cors"
 import "dotenv/config"
 import router from "./routes/users.js";
+import routerSpotify from "./routes/spotify.js";
 
 const server = express();
 
@@ -26,6 +27,8 @@ server.use("/", (req, res, next) => {
 server.use(express.json());
 
 server.use('/users',router)
+server.use('/spotify',routerSpotify)
+
 
 server.listen(process.env.SERVER_PORT || 4545, () => {
   console.log(`server listening on port:${process.env.SERVER_PORT}`);
