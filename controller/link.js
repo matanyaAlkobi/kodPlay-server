@@ -1,11 +1,13 @@
-import 'dotenv/config'
-const clientId =process.env.Client_ID;
-const clientSecret = process.env.Client_secret;
+// import "dotenv/config";
+const clientId = "3dc327a4ba20423ba643d94f9d8d9cb7";
+const clientSecret = "944a4d857e2e427fb47137c4a0ecfc7f";
 const redirectUri = "https://kodplay-server.onrender.com/spotify/callback";
 
 export async function getlinkSpotify(req, res) {
   try {
     const scope = "playlist-read-private";
+    console.log("scope:",scope);
+    
 
     const spotifyAuthUrl =
       `https://accounts.spotify.com/authorize?` +
@@ -24,6 +26,8 @@ export async function getlinkSpotify(req, res) {
 export async function token(req, res) {
   try {
     const { code } = req.query;
+    console.log("code:",code);
+    
     if (!code) {
       return res.status(400).json({ error: "Missing code" });
     }
@@ -67,22 +71,28 @@ export async function token(req, res) {
 
 export async function getfromSpotify(req, res) {
   try {
-    const type = req.params.type; 
+    const type = req.params.type;
     const query = req.params.query;
 
-     const authHeader= req.headers.authorization;
+    const authHeader = req.headers.authorization;
     const token = authHeader.replace("Bearer", "").trim();
-    
+
     if (!token) {
       return res.status(401).json({ error: "Missing token" });
     }
-   const spotifyRes = await fetch(
-  `https://api.spotify.com/v1/search?q=${encodeURIComponent(query)}&type=${type}&limit=5`,
-  { headers: {
-     Authorization: `Bearer ${token}` } });
+    const spotifyRes = await fetch(
+      `https://api.spotify.com/v1/search?q=${encodeURIComponent(
+        query
+      )}&type=${type}&limit=5`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
 
     const data = await spotifyRes.json();
-    res.json(data[`${type}s`].items); 
+    res.json(data[`${type}s`].items);
   } catch (error) {
     console.error("Error fetching from Spotify:", error);
     res.status(500).json({ error: "Internal Server Error" });
