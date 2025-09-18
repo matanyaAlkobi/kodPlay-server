@@ -75,10 +75,14 @@ export async function getfromSpotify(req, res) {
     const query = req.params.query;
 
     const authHeader = req.headers.authorization;
+    if (!authHeader) {
+      return res.status(401).json({ error: "Authorization header is missing" });
+    }
+
     const token = authHeader.replace("Bearer", "").trim();
 
     if (!token) {
-      return res.status(401).json({ error: "Missing token" });
+      return res.status(401).json({ error: "Bearer token is missing" });
     }
     const spotifyRes = await fetch(
       `https://api.spotify.com/v1/search?q=${encodeURIComponent(
