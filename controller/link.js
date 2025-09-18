@@ -111,6 +111,6 @@ export async function getfromSpotify(req, res) {
     }
   } catch (error) {
     console.error("Error fetching from Spotify:", error);
-    res.status(500).json({ error: "Internal Server Error" });
+    res.status(500).json({ error: "Internal Server Error", message: error.message });
   }
 }
