@@ -96,7 +96,19 @@ export async function getfromSpotify(req, res) {
     );
 
     const data = await spotifyRes.json();
-    res.json(data[`${type}s`].items);
+
+    if (!spotifyRes.ok) {
+      // Spotify returned an error. Forward it to the client.
+      return res.status(spotifyRes.status).json(data);
+    }
+
+    // Check if the expected data structure exists.
+    if (data[`${type}s`] && data[`${type}s`].items) {
+      res.json(data[`${type}s`].items);
+    } else {
+      // The structure is not what we expected.
+      res.status(500).json({ error: "Unexpected response structure from Spotify." });
+    }
   } catch (error) {
     console.error("Error fetching from Spotify:", error);
     res.status(500).json({ error: "Internal Server Error" });
