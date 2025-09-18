@@ -95,22 +95,32 @@ export async function getfromSpotify(req, res) {
       }
     );
 
-    const data = await spotifyRes.json();
+    const responseText = await spotifyRes.text();
+    let data;
+
+    try {
+      data = JSON.parse(responseText);
+    } catch (e) {
+      console.error("Spotify returned non-JSON response:", responseText);
+      return res.status(502).json({
+        error: "Bad Gateway",
+        message: "Received a non-JSON response from Spotify.",
+        upstream_response: responseText,
+      });
+    }
 
     if (!spotifyRes.ok) {
-      // Spotify returned an error. Forward it to the client.
+      // It was JSON, but an error JSON. Forward it.
       return res.status(spotifyRes.status).json(data);
     }
 
-    // Check if the expected data structure exists.
     if (data[`${type}s`] && data[`${type}s`].items) {
       res.json(data[`${type}s`].items);
     } else {
-      // The structure is not what we expected.
       res.status(500).json({ error: "Unexpected response structure from Spotify." });
     }
   } catch (error) {
-    console.error("Error fetching from Spotify:", error);
+    console.error("Error in getfromSpotify:", error);
     res.status(500).json({ error: "Internal Server Error", message: error.message });
   }
 }
